@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Flask Form Submission without Page Reload</title>
+   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+
+   <script>
+      $(document).ready(function() {
+            $('#submitBtn').click(function() {
+                var name = $('#name').val();
+                var email = $('#email').val();
+
+                console.log(name);
+                console.log(email)
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/submit',
+                    data: {name: name, email: email},
+                    success: function(response) {
+                        $('#message-p').text( response );
+                    },
+                    error: function(xhr, status, error) {
+                        $('#message').text('Failed to save data to database.');
+                    }
+                });
+            });
+        });
+   </script>
+</head>
+
+<body>
+    <form id="userForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+
+        <button type="button" id="submitBtn">Submit</button>
+    </form>
+
+    <div id="message">
+        <p id="message-p"></p>
+    </div>
+
+    <p class="test">I am just testing the styling</p>
+
+</body>
+</html>
